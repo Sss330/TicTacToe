@@ -1,9 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-class test {
-
-
+class Test {
     private static final char CELL_EMPTY = '*';
     private static final char CELL_X = 'X';
     private static final char CELL_0 = '0';
@@ -14,27 +12,26 @@ class test {
             {CELL_EMPTY, CELL_EMPTY, CELL_EMPTY},
             {CELL_EMPTY, CELL_EMPTY, CELL_EMPTY},
     };
+
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Random RANDOM = new Random();
-
 
     public static void main(String[] args) {
         while (true) {
             printField();
-            X_Turn();
-            checkGameStatus();
-
-                botTurn();
-                checkGameStatus();
-
+            playerTurn();
+            if (checkGameStatus()) break;
+            botTurn();
+            if (checkGameStatus()) break;
         }
     }
+
     public static void printField() {
-        //отпечатка координат
+
         for (int i = 0; i < FILD[0].length; i++) {
             System.out.print("  " + (i + 1));
         }
-        //отпечатка поля
+        // Отпечатка поля
         for (int i = 0; i < FILD.length; i++) {
             System.out.println();
             System.out.print((i + 1) + " ");
@@ -45,24 +42,28 @@ class test {
         System.out.println();
         System.out.println();
     }
+
     public static boolean checkGameStatus() {
-        check0Won();
-        checkX_won();
-        checkDraw ();
-        return false;
+        if (checkX_won() || check0Won()) {
+            return true; // Игра завершена
+        }
+        if (checkDraw()) {
+            return true; // Игра завершена
+        }
+        return false; // Игра продолжается
     }
+
     public static boolean checkX_won() {
-        // Проверка всех возможных выигрышных комбинаций для X
         for (int i = 0; i < 3; i++) {
             // Проверка горизонталей
             if (FILD[i][0] == CELL_X && FILD[i][1] == CELL_X && FILD[i][2] == CELL_X) {
                 System.out.println(WIN_X);
-                return true; // Победа X
+                return true;
             }
             // Проверка вертикалей
             if (FILD[0][i] == CELL_X && FILD[1][i] == CELL_X && FILD[2][i] == CELL_X) {
                 System.out.println(WIN_X);
-                return true; // Победа X
+                return true;
             }
         }
         // Проверка диагоналей
@@ -72,13 +73,12 @@ class test {
         }
         if (FILD[0][2] == CELL_X && FILD[1][1] == CELL_X && FILD[2][0] == CELL_X) {
             System.out.println(WIN_X);
-            return true; // Победа X
+            return true;
         }
-        return false; // Нет победы
-    }
+        return false;
 
+    }
     public static boolean check0Won() {
-        // Проверка всех возможных выигрышных комбинаций для 0
         for (int i = 0; i < 3; i++) {
             // Проверка горизонталей
             if (FILD[i][0] == CELL_0 && FILD[i][1] == CELL_0 && FILD[i][2] == CELL_0) {
@@ -98,46 +98,47 @@ class test {
         }
         if (FILD[0][2] == CELL_0 && FILD[1][1] == CELL_0 && FILD[2][0] == CELL_0) {
             System.out.println(WIN_0);
-            return true; // Победа 0
+            return true;
         }
-        return false; // Нет победы
+        return false;
     }
 
-
-
     public static boolean checkDraw() {
-        // Проверяем, есть ли победитель
-        if (checkX_won() || check0Won()) {
-            return false; // Если есть победитель, ничьей нет
-        }
         // Проверяем, заполнены ли все ячейки
-        for (char[] chars : FILD) {
-            for (char aChar : chars) {
-                if (aChar == CELL_EMPTY) {
-                    return false; // Если есть пустая ячейка, игра продолжается
+        for (char[] row : FILD) {
+            for (char cell : row) {
+                if (cell == CELL_EMPTY) {
+                    return false;
                 }
             }
         }
-        return true ; // Ничья
+        System.out.println("Ничья!");
+        return true; // Ничья
     }
-    //ход игрока
-    public static void X_Turn() {
+
+    public static void playerTurn() {
         System.out.println();
         System.out.println();
 
-        System.out.println("выбирите координату по горизонтали: ");
+        System.out.println("Выберите координату по горизонтали (1-3): ");
         int cordinates1 = SCANNER.nextInt();
-        System.out.println("выбирите координату по верикали: ");
+        System.out.println("Выберите координату по вертикали (1-3): ");
         int cordinates2 = SCANNER.nextInt();
 
-       if (FILD[cordinates1 - 1][cordinates2 - 1] != CELL_0 )
-        FILD[cordinates1 - 1][cordinates2 - 1] = CELL_X;
-        else{
-           System.out.println("эта ячейка занята");
-       }
+        // Проверка на валидность ввода
+        if (cordinates1 < 1 || cordinates1 > 3 || cordinates2 < 1 || cordinates2 > 3) {
+            System.out.println("Некорректные координаты. Попробуйте снова.");
+            return;
+        }
 
 
+        if (FILD[cordinates1 - 1][cordinates2 - 1] == CELL_EMPTY) {
+            FILD[cordinates1 - 1][cordinates2 - 1] = CELL_X;
+        } else {
+            System.out.println("Эта ячейка уже занята. Попробуйте снова.");
+        }
     }
+
     public static void botTurn() {
         while (true) {
             int randomNum = RANDOM.nextInt(3);
