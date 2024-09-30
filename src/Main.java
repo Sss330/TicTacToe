@@ -31,7 +31,7 @@ class Test {
         for (int i = 0; i < FILD[0].length; i++) {
             System.out.print("  " + (i + 1));
         }
-        // Отпечатка поля
+       
         for (int i = 0; i < FILD.length; i++) {
             System.out.println();
             System.out.print((i + 1) + " ");
@@ -45,31 +45,31 @@ class Test {
 
     public static boolean checkGameStatus() {
         if (checkX_won() || check0Won()) {
-            return true; // Игра завершена
+            return true; 
         }
         if (checkDraw()) {
-            return true; // Игра завершена
+            return true;
         }
-        return false; // Игра продолжается
+        return false; 
     }
 
     public static boolean checkX_won() {
         for (int i = 0; i < 3; i++) {
-            // Проверка горизонталей
+            
             if (FILD[i][0] == CELL_X && FILD[i][1] == CELL_X && FILD[i][2] == CELL_X) {
                 System.out.println(WIN_X);
                 return true;
             }
-            // Проверка вертикалей
+            
             if (FILD[0][i] == CELL_X && FILD[1][i] == CELL_X && FILD[2][i] == CELL_X) {
                 System.out.println(WIN_X);
                 return true;
             }
         }
-        // Проверка диагоналей
+       
         if (FILD[0][0] == CELL_X && FILD[1][1] == CELL_X && FILD[2][2] == CELL_X) {
             System.out.println(WIN_X);
-            return true; // Победа X
+            return true; 
         }
         if (FILD[0][2] == CELL_X && FILD[1][1] == CELL_X && FILD[2][0] == CELL_X) {
             System.out.println(WIN_X);
@@ -80,21 +80,21 @@ class Test {
     }
     public static boolean check0Won() {
         for (int i = 0; i < 3; i++) {
-            // Проверка горизонталей
+           
             if (FILD[i][0] == CELL_0 && FILD[i][1] == CELL_0 && FILD[i][2] == CELL_0) {
                 System.out.println(WIN_0);
-                return true; // Победа 0
+                return true; 
             }
             // Проверка вертикалей
             if (FILD[0][i] == CELL_0 && FILD[1][i] == CELL_0 && FILD[2][i] == CELL_0) {
                 System.out.println(WIN_0);
-                return true; // Победа 0
+                return true; 
             }
         }
         // Проверка диагоналей
         if (FILD[0][0] == CELL_0 && FILD[1][1] == CELL_0 && FILD[2][2] == CELL_0) {
             System.out.println(WIN_0);
-            return true; // Победа 0
+            return true; 
         }
         if (FILD[0][2] == CELL_0 && FILD[1][1] == CELL_0 && FILD[2][0] == CELL_0) {
             System.out.println(WIN_0);
@@ -104,7 +104,7 @@ class Test {
     }
 
     public static boolean checkDraw() {
-        // Проверяем, заполнены ли все ячейки
+       
         for (char[] row : FILD) {
             for (char cell : row) {
                 if (cell == CELL_EMPTY) {
@@ -113,7 +113,7 @@ class Test {
             }
         }
         System.out.println("Ничья!");
-        return true; // Ничья
+        return true; 
     }
 
     public static void playerTurn() {
@@ -125,7 +125,7 @@ class Test {
         System.out.println("Выберите координату по вертикали (1-3): ");
         int cordinates2 = SCANNER.nextInt();
 
-        // Проверка на валидность ввода
+        
         if (cordinates1 < 1 || cordinates1 > 3 || cordinates2 < 1 || cordinates2 > 3) {
             System.out.println("Некорректные координаты. Попробуйте снова.");
             return;
